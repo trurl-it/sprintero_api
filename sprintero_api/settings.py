@@ -129,6 +129,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50
 }
 
+SUPPORTED_SLACK_COMMANDS = ['/sprintero']
+
 try:
     from local_settings import *
 except ImportError:
