@@ -67,7 +67,7 @@ class SlackPOSTView(APIView):
             pass
 
         badass = False
-        if 'baddass' in serializer.data.get('text', []):
+        if 'badass' in serializer.data.get('text', []):
             # add support for badass characters;
             badass = True
 
