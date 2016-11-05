@@ -49,8 +49,8 @@ class MarvelViewSet(viewsets.ReadOnlyModelViewSet):
 
 class SlackPOSTView(APIView):
 
-    def post(self, request, *args, **kwargs):
-        serializer = SlackDataSerializer(data=request.data)
+    def get(self, request, *args, **kwargs):
+        serializer = SlackDataSerializer(data=request.query_params)
         if not serializer.is_valid():
             Response(status=status.HTTP_400_BAD_REQUEST)
         # check token
@@ -71,7 +71,7 @@ class SlackPOSTView(APIView):
             badass = True
 
         random_marvel_character = get_random_character(badass)
-        if random_marvel_character.count() >= 1:    
+        if random_marvel_character.count() >= 1:
             return Response(
                 {'text': MarvelSerializer(random_marvel_character[0]).data},
                 status=status.HTTP_200_OK,
