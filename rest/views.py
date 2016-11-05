@@ -61,12 +61,12 @@ class SlackPOSTView(APIView):
         if serializer.data.get('command') not in settings.SUPPORTED_SLACK_COMMANDS:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        if 'wellknown' in serializer.data['text']:
+        if 'wellknown' in serializer.data.get('text', []):
             # add support for well known characters;
             pass
 
         badass = False
-        if 'baddass' in serializer.data.get('text'):
+        if 'baddass' in serializer.data.get('text', []):
             # add support for badass characters;
             badass = True
 
