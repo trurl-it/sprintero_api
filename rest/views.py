@@ -3,6 +3,7 @@
 # Create your views here.
 import json
 from random import randint
+from urlparse import urljoin
 
 from rest_framework import status
 from rest_framework import viewsets
@@ -73,8 +74,26 @@ class SlackPOSTView(APIView):
 
         random_marvel_character = get_random_character(badass)
         if random_marvel_character.count() >= 1:
+            serialized_data = MarvelSerializer(random_marvel_character[0]).data
+            name = serialized_data['name'].replace('(Earth-616)', '').strip()
+            url = urljoin(settings.MARVEL_WIKIA, serialized_data['url_slug'].replace('\\', ''))
+            data = {
+                "attachments": [
+                    {
+                        "fallback": name,
+                        "pretext": "Sprintero gives you names",
+                        "title": name,
+                        "title_link": url,
+                        "text": "Character is {}. And is in the {} group.".format(
+                            "still_alive" if serialized_data["alive"] == "Living Characters" else "dead",
+                            serialized_data["align"],
+                        ),
+                        "color": "#7CD197"
+                    }
+                ]
+            }
             return Response(
-                json.dumps({'text': MarvelSerializer(random_marvel_character[0]).data}),
+                json.dumps(data),
                 status=status.HTTP_200_OK,
             )
         return Response(status=status.HTTP_404_NOT_FOUND)
