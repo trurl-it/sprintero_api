@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Create your views here.
+import json
 from random import randint
 
 from rest_framework import status
@@ -73,7 +74,7 @@ class SlackPOSTView(APIView):
         random_marvel_character = get_random_character(badass)
         if random_marvel_character.count() >= 1:
             return Response(
-                {'text': MarvelSerializer(random_marvel_character[0]).data},
+                json.dumps({'text': MarvelSerializer(random_marvel_character[0]).data}),
                 status=status.HTTP_200_OK,
             )
         return Response(status=status.HTTP_404_NOT_FOUND)
