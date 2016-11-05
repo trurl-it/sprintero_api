@@ -130,6 +130,7 @@ REST_FRAMEWORK = {
 }
 
 SUPPORTED_SLACK_COMMANDS = ['/sprintero']
+MARVEL_WIKIA = 'http://marvel.wikia.com/wiki/'
 
 try:
     from local_settings import *
