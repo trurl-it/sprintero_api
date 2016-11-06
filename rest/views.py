@@ -93,7 +93,7 @@ class SlackPOSTView(APIView):
                 ]
             }
             return Response(
-                json.dumps(data),
+                data,
                 status=status.HTTP_200_OK,
             )
         return Response(status=status.HTTP_404_NOT_FOUND)
