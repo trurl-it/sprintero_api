@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # Create your views here.
-import json
 from random import randint
 from urlparse import urljoin
 
