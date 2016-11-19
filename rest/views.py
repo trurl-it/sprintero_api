@@ -3,6 +3,8 @@
 # Create your views here.
 from random import randint
 
+import requests
+from django.http import HttpResponseRedirect
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
@@ -89,3 +91,28 @@ class SlackPOSTView(APIView):
             )
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+class SlackOauthView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'client_id': settings.SLACK_CLIENT_ID,
+            'client_secret': settings.SLACK_SECRET,
+            'code': request.query_params.get('code')
+        }
+
+        response = requests.post('https://slack.com/api/oauth.access', data=data)
+        json_response = response.json()
+        if response.status_code == status.HTTP_200_OK and json_response['ok']:
+            token = response.json().get('access_token')
+            # ask about team name:
+            response = requests.post('https://slack.com/api/team.info', data={
+                'token': token
+            })
+            json_response = response.json()
+            if json_response:
+                team_domain = json_response.get('team', {}).get('domain')
+                if team_domain:
+                    return HttpResponseRedirect('https://{}.slack.com'.format(team_domain))
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
