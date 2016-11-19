@@ -132,6 +132,8 @@ REST_FRAMEWORK = {
 SUPPORTED_SLACK_COMMANDS = ['/sprintero']
 MARVEL_WIKIA = 'http://marvel.wikia.com/wiki/'
 SLACK_TOKEN = ''
+SLACK_CLIENT_ID = ''
+SLACK_SECRET = ''
 
 try:
     from local_settings import *
