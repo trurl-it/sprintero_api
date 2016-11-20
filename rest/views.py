@@ -72,12 +72,26 @@ class SlackPOSTView(APIView):
         if serializer.data.get('command') not in settings.SUPPORTED_SLACK_COMMANDS:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        command_text = serializer.data.get('text', [])
+
+        if 'help' in command_text:
+            return Response(
+                {
+                    "text": "To use sprintero write (it generates for you sprint names):\n"
+                            "/sprintero - will give you good character name from over 8k names in database\n"
+                            "/sprintero wellknown - will give you wellknown character name\n"
+                            "/sprintero badass - will give you bad character name\n"
+                            "/sprintero wellknown badass - will give you a well known bad character name\n"
+                },
+                status=status.HTTP_200_OK
+            )
+
         wellknown = False
-        if 'wellknown' in serializer.data.get('text', []):
+        if 'wellknown' in command_text:
             wellknown = True
 
         badass = False
-        if 'badass' in serializer.data.get('text', []):
+        if 'badass' in command_text:
             # add support for badass characters;
             badass = True
 
