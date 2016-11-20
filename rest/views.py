@@ -60,8 +60,8 @@ class MarvelViewSet(viewsets.ReadOnlyModelViewSet):
 
 class SlackPOSTView(APIView):
 
-    def get(self, request, *args, **kwargs):
-        serializer = SlackDataSerializer(data=request.query_params)
+    def post(self, request, *args, **kwargs):
+        serializer = SlackDataSerializer(data=request.data)
         if not serializer.is_valid():
             Response(status=status.HTTP_400_BAD_REQUEST)
         # check token
