@@ -79,7 +79,7 @@ class SlackPOSTView(APIView):
                 {
                     "text": "To use sprintero write (it generates for you sprint names):\n"
                             "/sprintero - will give you good character name from over 8k names in database\n"
-                            "/sprintero wellknown - will give you wellknown character name\n"
+                            "/sprintero wellknown - will give you wellknown and good character name\n"
                             "/sprintero badass - will give you bad character name\n"
                             "/sprintero wellknown badass - will give you a well known bad character name\n"
                 },
