@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# Create your views here.
 from random import randint
 
 import requests
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.views import success_view
 from rest.helpers import to_bool
 from rest.models import MarvelDatabase
 from rest.serializers import MarvelSerializer, SlackDataSerializer
@@ -127,6 +127,6 @@ class SlackOauthView(APIView):
             if json_response:
                 team_domain = json_response.get('team', {}).get('domain')
                 if team_domain:
-                    return HttpResponseRedirect('https://{}.slack.com'.format(team_domain))
+                    return redirect(success_view, team_domain=team_domain)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
