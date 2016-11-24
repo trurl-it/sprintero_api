@@ -127,6 +127,6 @@ class SlackOauthView(APIView):
             if json_response:
                 team_domain = json_response.get('team', {}).get('domain')
                 if team_domain:
-                    return redirect(success_view, team_domain=team_domain)
+                    return redirect(success_view, team_domain)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
